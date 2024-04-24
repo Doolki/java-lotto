@@ -9,4 +9,9 @@ public class InputView {
         return scanner.nextInt();
     }
 
+    public String winningNumber() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
 }
