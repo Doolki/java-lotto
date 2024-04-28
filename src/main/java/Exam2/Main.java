@@ -3,7 +3,6 @@ package Exam2;
 import java.util.List;
 
 public class Main {
-
     public static void main(String[] args) {
         ResultView resultView = new ResultView();
         resultView.purchasePrice();
@@ -34,5 +33,7 @@ public class Main {
 
         double rate = lotto.rate(count, equalCountList);
         resultView.winningRate(rate);
+
+
     }
 }

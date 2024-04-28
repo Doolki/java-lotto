@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class ResultView {
 
+    private final static int[] EQUALS = {0, 0, 0, 5000, 50000, 1500000, 2000000000};
+
     public void purchasePrice() {
         System.out.println("구입금액을 입력해 주세요.");
     }
@@ -33,8 +35,7 @@ public class ResultView {
 
     public void winningCount(List<Integer> equalCountList) {
         for (int i = 3; i <= 6; i++) {
-            System.out.println(
-                i + "개 일치 (" + LottoDTO.PRIZE[i] + "원)- " + equalCountList.get(i) + "");
+            System.out.println(i + "개 일치 (" + EQUALS[i] +"원)- " + equalCountList.get(i) + "");
         }
     }
 
