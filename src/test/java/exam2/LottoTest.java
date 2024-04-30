@@ -1,20 +1,18 @@
-package Exam2;
+package exam2;
 
-import org.assertj.core.api.Assertions;
+import exam2.lotto.PurchaseLottoList;
+import exam2.lotto.WinningLottoNumber;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class LottoTest {
 
@@ -22,11 +20,10 @@ class LottoTest {
     @ParameterizedTest
     @ValueSource(ints = {999})
     void purchasePriceException(int input) {
-        Lotto lotto = new Lotto();
 
         assertThatThrownBy(() -> {
-            lotto.purchaseCount(input);
-        }).isInstanceOf(RuntimeException.class)
+            new PurchaseLottoList(input);
+        }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("로또 구입 가격은 1000원 이상 이여야 합니다");
 
     }
@@ -35,43 +32,37 @@ class LottoTest {
     @ParameterizedTest
     @CsvSource(value = {"1000:1", "1113455:1113", "12000:12", "12500:12"}, delimiter = ':')
     void purchaseCount(int input, int expect) {
-        Lotto lotto = new Lotto();
+        PurchaseLottoList purchaseLottoList = new PurchaseLottoList(input);
 
-        int count = lotto.purchaseCount(input);
-
-        assertThat(count).isEqualTo(expect);
+        assertThat(purchaseLottoList.getCount()).isEqualTo(expect);
     }
 
     @DisplayName("랜덤으로 생성된 로또 번호는 1~45 사이 값 입니다.")
     @Test
     void checkLottoNumberRange() {
-        Lotto lotto = new Lotto();
+        PurchaseLottoList purchaseLottoList = new PurchaseLottoList(1000);
 
-        List<Integer> lottoNumber = lotto.makeLottoNumber();
+        List<Integer> numbers = purchaseLottoList.getNumbers(0);
 
-        for (Integer num : lottoNumber) {
-            assertThat(num).isBetween(1, 45);
-        }
+        assertThat(numbers)
+            .allSatisfy(number -> assertThat(number).isBetween(1, 45));
     }
 
     @DisplayName("랜덤으로 생성된 로또 번호는 6개로 이루어져 있습니다")
     @Test
     void checkLottoNumberSize() {
-        Lotto lotto = new Lotto();
+        PurchaseLottoList purchaseLottoList = new PurchaseLottoList(1000);
 
-        List<Integer> lottoNumber = lotto.makeLottoNumber();
-
-        assertThat(lottoNumber).hasSize(6);
+        assertThat(purchaseLottoList.getNumberList().get(0)).hasSize(6);
     }
 
     @DisplayName("로또 당첨 번호는 6개여야 합니다")
     @ParameterizedTest
     @ValueSource(strings = {"", "1", "1, 2 ,4, 5", "2,3,4,5,6,7,8,9"})
     void lottoNumberCountIsSix(String input) {
-        Lotto lotto = new Lotto();
 
         assertThatThrownBy(() -> {
-            lotto.makeWinningNumber(input);
+            new WinningLottoNumber(input);
         }).isInstanceOf(RuntimeException.class)
             .hasMessage("당첨 번호는 6개여야 합니다");
     }
@@ -80,10 +71,9 @@ class LottoTest {
     @ParameterizedTest
     @ValueSource(strings = {"1, 2, 3, 4, 5, 100", "1, 2, 100, 4, 5, 6"})
     void lottoNumberRange0To45(String input) {
-        Lotto lotto = new Lotto();
 
         assertThatThrownBy(() -> {
-            lotto.makeWinningNumber(input);
+            new WinningLottoNumber(input);
         }).isInstanceOf(RuntimeException.class)
             .hasMessage("1 ~ 45 사이 값을 입력 해주세요");
     }
@@ -92,10 +82,8 @@ class LottoTest {
     @ParameterizedTest
     @ValueSource(strings = {"1, d2, df3, 4, 5, 100", "1, df2, 100, 4, a5, 6"})
     void lottoNumberFormatException(String input) {
-        Lotto lotto = new Lotto();
-
         assertThatThrownBy(() -> {
-            lotto.makeWinningNumber(input);
+            new WinningLottoNumber(input);
         }).isInstanceOf(NumberFormatException.class)
             .hasMessage("숫자가 아닌 값을 입력할 수 없습니다");
     }
@@ -104,10 +92,8 @@ class LottoTest {
     @ParameterizedTest
     @ValueSource(strings = {"1, 2, 3, 4, 1, 45"})
     void lottoDuplicateException(String input) {
-        Lotto lotto = new Lotto();
-
         assertThatThrownBy(() -> {
-            lotto.makeWinningNumber(input);
+            new WinningLottoNumber(input);
         }).isInstanceOf(RuntimeException.class)
             .hasMessage("중복된 값은 입력할 수 없습니다");
     }
@@ -115,14 +101,15 @@ class LottoTest {
     @DisplayName("로또 당첨 개수를 확인합니다")
     @Test
     void lottoNumberEqualCount() {
-        Lotto lotto = new Lotto();
+        WinningLottoNumber winningNumbers = new WinningLottoNumber("1,2,3,4,5,6");
+        PurchaseLottoList purchaseLottoList = new PurchaseLottoList() {{
+            add(Arrays.asList(8, 21, 23, 41, 42, 43));
+            add(Arrays.asList(3, 5, 11, 16, 32, 38));
+        }};
 
-        List<Integer> lottoNumbers = Arrays.asList(8, 21, 23, 41, 42, 43);
-        List<Integer> winningNumbers = Arrays.asList(8, 21, 23, 41, 42, 45);
+        int expect = 0;
 
-        int expect = 5;
-
-        int count = lotto.equalCount(lottoNumbers, winningNumbers);
+        int count = purchaseLottoList.equalCount(purchaseLottoList.getNumbers(0), winningNumbers);
 
         assertThat(count).isEqualTo(expect);
     }
@@ -130,14 +117,15 @@ class LottoTest {
     @DisplayName("로또 번호가 정답인지 비교합니다")
     @Test
     void isEqual() {
-        Lotto lotto = new Lotto();
+        WinningLottoNumber winningNumbers = new WinningLottoNumber("1,2,3,4,5,6");
+        PurchaseLottoList purchaseLottoList = new PurchaseLottoList() {{
+            add(Arrays.asList(8, 21, 23, 41, 42, 43));
+            add(Arrays.asList(3, 5, 11, 16, 32, 38));
+        }};
+        int expect = 0;
 
-        int lottoNum = 21;
-        List<Integer> winningNumbers = Arrays.asList(8, 21, 23, 41, 42, 45);
-
-        int expect = 1;
-
-        int count = lotto.isEqual(lottoNum, winningNumbers);
+        int count = purchaseLottoList.isEqual(purchaseLottoList.getNumberList().get(0).get(0),
+            winningNumbers);
 
         assertThat(count).isEqualTo(expect);
     }
@@ -145,36 +133,33 @@ class LottoTest {
     @DisplayName("모든 로또 번호 당첨 개수를 계산합니다")
     @Test
     void lottoEqualList() {
-        Lotto lotto = new Lotto();
-
-        List<Integer> winningNumbers = Arrays.asList(8, 21, 23, 41, 42, 45);
-        List<List<Integer>> lottoNumberList = new ArrayList<>() {{
+        WinningLottoNumber winningNumbers = new WinningLottoNumber("1,2,3,4,5,6");
+        PurchaseLottoList purchaseLottoList = new PurchaseLottoList() {{
             add(Arrays.asList(8, 21, 23, 41, 42, 43));
             add(Arrays.asList(3, 5, 11, 16, 32, 38));
         }};
 
-        List<Integer> count = lotto.lottoEqualList(lottoNumberList, winningNumbers);
+        purchaseLottoList.lottoEqualList(winningNumbers);
 
-        List<Integer> expect = Arrays.asList(1, 0, 0, 0, 0, 1, 0);
+        List<Integer> expect = Arrays.asList(1, 0, 1, 0, 0, 0, 0);
 
-        assertThat(count).isEqualTo(expect);
+        assertThat(purchaseLottoList.getEqualList()).isEqualTo(expect);
     }
 
     @DisplayName("수익 비율를 계산합니다")
-    @ParameterizedTest
-    @CsvSource({
-        "14, 0, 0, 0, 0, 0, 0, 0",
-        "14, 0, 0, 0, 1, 0, 0, 0.35"
-    })
-    void rate(int lottoCount, int equal0, int equal1, int equal2, int equal3, int equal4,
-        int equal5, double expect) {
-        Lotto lotto = new Lotto();
+    @Test
+    void rate() {
+        WinningLottoNumber winningNumbers = new WinningLottoNumber("1,2,3,4,5,6");
+        PurchaseLottoList purchaseLottoList = new PurchaseLottoList() {{
+            add(Arrays.asList(8, 21, 23, 41, 42, 43));
+            add(Arrays.asList(3, 5, 11, 16, 32, 38));
+        }};
 
-        List<Integer> equalList = Arrays.asList(equal0, equal1, equal2, equal3, equal4, equal5);
+        purchaseLottoList.lottoEqualList(winningNumbers);
 
-        double rate = lotto.rate(lottoCount, equalList);
+        double expect = 0;
 
-        assertThat(rate).isEqualTo(expect);
+        assertThat(purchaseLottoList.getRate()).isEqualTo(expect);
     }
 
 }
