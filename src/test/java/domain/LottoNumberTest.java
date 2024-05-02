@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 
+@DisplayName("로또 번호 테스트")
 class LottoNumberTest {
 
     @ParameterizedTest
