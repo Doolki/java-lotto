@@ -1,10 +1,9 @@
 package exam2;
 
-import exam2.lotto.PurchaseLottoList;
-import exam2.lotto.WinningLottoNumber;
+import exam2.lotto.Purchase;
+import exam2.lotto.Winning;
 import exam2.view.InputView;
 import exam2.view.ResultView;
-import java.util.List;
 
 public class Main {
 
@@ -15,25 +14,25 @@ public class Main {
         InputView inputView = new InputView();
         int price = inputView.purchasePrice();
 
-        PurchaseLottoList purchaseLottoList = new PurchaseLottoList(price);
-        int count = purchaseLottoList.getCount();
+        Purchase purchase = new Purchase(price);
+        int count = purchase.getCount();
 
         resultView.purchaseCount(count);
 
-        resultView.lottoNumberList(purchaseLottoList);
+        resultView.lottoNumberList(purchase);
 
         resultView.winningNumber();
 
         String winningNumberStr = inputView.winningNumber();
 
-        WinningLottoNumber winningLottoNumber = new WinningLottoNumber(winningNumberStr);
+        Winning winning = new Winning(winningNumberStr);
 
         resultView.winningStatistics();
 
-        purchaseLottoList.lottoEqualList(winningLottoNumber);
+        purchase.lottoEqualList(winning);
 
-        resultView.winningCount(purchaseLottoList);
+        resultView.winningCount(purchase);
 
-        resultView.winningRate(purchaseLottoList);
+        resultView.winningRate(purchase);
     }
 }

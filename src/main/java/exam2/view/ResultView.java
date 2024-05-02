@@ -1,6 +1,6 @@
 package exam2.view;
 
-import exam2.lotto.PurchaseLottoList;
+import exam2.lotto.Purchase;
 import exam2.lotto.LottoPrize;
 import java.util.List;
 
@@ -14,8 +14,8 @@ public class ResultView {
         System.out.println(count + "개를 구매했습니다.");
     }
 
-    public void lottoNumberList(PurchaseLottoList purchaseLottoList) {
-        for (List<Integer> p : purchaseLottoList.getNumberList()) {
+    public void lottoNumberList(Purchase purchase) {
+        for (List<Integer> p : purchase.getLottoNumbers().getNumberList()) {
             System.out.println(p);
         }
 
@@ -30,18 +30,18 @@ public class ResultView {
         System.out.println("---------");
     }
 
-    public void winningCount(PurchaseLottoList purchaseLottoList) {
+    public void winningCount(Purchase purchase) {
         for (int i = 3; i <= 6; i++) {
             System.out.println(
-                i + "개 일치 (" + LottoPrize.PRIZE.getPrize()[i] + "원)- "
-                    + purchaseLottoList.getEqualList().get(i) + "");
+                i + "개 일치 (" + LottoPrize.values()[i].getPrize() + "원)- "
+                    + purchase.getEqualList().get(i) + "");
         }
     }
 
-    public void winningRate(PurchaseLottoList purchaseLottoList) {
+    public void winningRate(Purchase purchase) {
 
-        System.out.print("총 수익률은 " + purchaseLottoList.getRate() + "입니다.");
-        System.out.println(benefit(purchaseLottoList.getRate()));
+        System.out.print("총 수익률은 " + purchase.getRate() + "입니다.");
+        System.out.println(benefit(purchase.getRate()));
     }
 
     //당첨 통계 메세지
