@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calculator {
+
     private static final String STR_SPLIT_PATTERN = "//(.*?)\\\\n";
     private static final Pattern pattern = Pattern.compile(STR_SPLIT_PATTERN);
 
@@ -32,3 +33,4 @@ public class Calculator {
         return Arrays.stream(arr).mapToInt(Integer::parseInt).sum();
     }
 }
+

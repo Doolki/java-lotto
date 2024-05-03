@@ -32,3 +32,4 @@ class CalculatorServiceTest {
         assertThat(sum).isEqualTo(expected);
     }
 }
+
