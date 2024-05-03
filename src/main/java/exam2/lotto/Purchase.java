@@ -69,6 +69,11 @@ public class Purchase {
         this.rate = Math.floor((sum / (count * LottoPrice.PRICE_1000.getPrice())) * 100.0) / 100.0;
     }
 
+    public void add(List<Integer> list) {
+        lottoNumbers.add(list);
+        count += 1;
+    }
+
     public int getCount() {
         return count;
     }
@@ -79,11 +84,6 @@ public class Purchase {
 
     public List<Integer> getEqualList() {
         return equalList;
-    }
-
-    public void add(List<Integer> list) {
-        lottoNumbers.add(list);
-        count += 1;
     }
 
     public LottoNumbers getLottoNumbers() {

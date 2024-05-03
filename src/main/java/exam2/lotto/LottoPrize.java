@@ -4,10 +4,10 @@ public enum LottoPrize {
     ZERO(0),
     ONE(0),
     TWO(0),
-    THREE(5000),
-    FOUR(50000),
-    FIVE(1500000),
-    SIX(2000000000);
+    THREE(5_000),
+    FOUR(50_000),
+    FIVE(1_500_000),
+    SIX(2_000_000_000);
 
     private final int prize;
 

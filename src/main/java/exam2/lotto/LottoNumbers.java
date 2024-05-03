@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class LottoNumbers {
 
-    public final static int lottoStartNumber = 1;
-    public final static int lottoEndNumber = 45;
+    public final static int LOTTO_START_NUMBER = 1;
+    public final static int LOTTO_END_NUMBER = 45;
     private List<List<Integer>> numberList = new ArrayList<>();
 
     public LottoNumbers() {
@@ -51,7 +51,7 @@ public class LottoNumbers {
                 throw new NumberFormatException("숫자가 아닌 값을 입력할 수 없습니다");
             }
 
-            if (!(num <= lottoEndNumber && num >= lottoStartNumber)) {
+            if (!(num <= LOTTO_END_NUMBER && num >= LOTTO_START_NUMBER)) {
                 throw new RuntimeException("1 ~ 45 사이 값을 입력 해주세요");
             }
 
@@ -85,7 +85,7 @@ public class LottoNumbers {
     //로또 랜덤 번호를 생성합니다
     private List<Integer> makeLottoNumber() {
         List<Integer> list = new ArrayList<>();
-        for (int i = LottoNumbers.lottoStartNumber; i <= LottoNumbers.lottoEndNumber; i++) {
+        for (int i = LottoNumbers.LOTTO_START_NUMBER; i <= LottoNumbers.LOTTO_END_NUMBER; i++) {
             list.add(i);
         }
 

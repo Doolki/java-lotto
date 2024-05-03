@@ -1,7 +1,7 @@
 package exam2.lotto;
 
 public enum LottoPrice {
-    PRICE_1000(1000);
+    PRICE_1000(1_000);
 
     private final int price;
 
