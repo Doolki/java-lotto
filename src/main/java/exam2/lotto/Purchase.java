@@ -56,10 +56,10 @@ public class Purchase {
 
     //당첨 통계를 계산합니다
     public void rate() {
-        double sum = 0;
-        for (int i = 0; i < equalList.size(); i++) {
-            sum += equalList.get(i) * LottoPrize.values()[i].getPrize();
-        }
+        double sum = equalList.get(3) * LottoPrize.THREE.getPrize()
+            + equalList.get(4) * LottoPrize.FOUR.getPrize()
+            + equalList.get(5) * LottoPrize.FIVE.getPrize()
+            + equalList.get(6) * LottoPrize.SIX.getPrize();
 
         if (sum == 0) {
             rate = 0;

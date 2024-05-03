@@ -36,6 +36,15 @@ public class ResultView {
                 i + "개 일치 (" + LottoPrize.values()[i].getPrize() + "원)- "
                     + purchase.getEqualList().get(i) + "");
         }
+
+        String str =
+            "3개 일치(" + LottoPrize.THREE.getPrize() + "원)- " + purchase.getEqualList().get(3) + "\n"
+                + "4개 일치(" + LottoPrize.FOUR.getPrize() + "원)- " + purchase.getEqualList().get(4)
+                + "\n"
+                + "5개 일치(" + LottoPrize.FIVE.getPrize() + "원)- " + purchase.getEqualList().get(5)
+                + "\n"
+                + "6개 일치(" + LottoPrize.SIX.getPrize() + "원)- " + purchase.getEqualList().get(6)
+                + "\n";
     }
 
     public void winningRate(Purchase purchase) {

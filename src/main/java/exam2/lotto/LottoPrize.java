@@ -11,6 +11,7 @@ public enum LottoPrize {
 
     private final int prize;
 
+
     LottoPrize(int prize) {
         this.prize = prize;
     }
