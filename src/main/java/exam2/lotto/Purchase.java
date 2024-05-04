@@ -24,7 +24,11 @@ public class Purchase {
         lottoNumbers = new LottoNumbers(count);
     }
 
-    //모든 로또 번호의 당첨 개수를 계산하고 수익률을 계산합니다
+    /**
+     * 모든 로또 번호의 당첨 개수를 계산하고 수익률을 계산합니다
+     *
+     * @param winning
+     */
     public void lottoEqualList(Winning winning) {
         equalList = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
 
@@ -36,7 +40,13 @@ public class Purchase {
         this.rate();
     }
 
-    //로또 당첨 개수를 계산합니다
+    /**
+     * 로또 당첨 개수를 계산합니다
+     *
+     * @param list
+     * @param winning
+     * @return
+     */
     public int equalCount(List<Integer> list, Winning winning) {
         int equalCount = 0;
         for (Integer lottoNum : list) {
@@ -45,7 +55,13 @@ public class Purchase {
         return equalCount;
     }
 
-    //로또 번호 1개 당첨 여부를 확인합니다
+    /**
+     * 로또 번호 1개 당첨 여부를 확인합니다
+     *
+     * @param lottoNum
+     * @param winning
+     * @return
+     */
     public int isEqual(int lottoNum, Winning winning) {
         int equal = 0;
         if (winning.getLottoNumbers().getNumberList().get(0).contains(lottoNum)) {
@@ -54,7 +70,9 @@ public class Purchase {
         return equal;
     }
 
-    //당첨 통계를 계산합니다
+    /**
+     * 당첨 통계를 계산합니다
+     */
     public void rate() {
         double sum = equalList.get(3) * LottoPrize.THREE.getPrize()
             + equalList.get(4) * LottoPrize.FOUR.getPrize()
