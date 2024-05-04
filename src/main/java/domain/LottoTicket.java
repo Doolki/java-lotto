@@ -13,6 +13,10 @@ public class LottoTicket {
     private final LottoNumbers lottoNumbers;
 
     private LottoTicket(LottoNumbers lottoNumbers) {
+        if (lottoNumbers == null) {
+            throw new IllegalArgumentException("로또 번호는 비어 있으면 안됩니다.");
+        }
+
         if (lottoNumbers.hasNotSize(LOTTO_SIZE)) {
             throw new IllegalArgumentException("로또 번호는 " + LOTTO_SIZE + "개 이어야 합니다.");
         }
@@ -24,14 +28,8 @@ public class LottoTicket {
         return new LottoTicket(LottoNumbers.of(lottoNumbers));
     }
 
-    public static LottoTicket createLottoTicket(int... lottoNumbers) {
-        if (lottoNumbers == null) {
-            throw new IllegalArgumentException("로또 번호는 1개 이상이어야 합니다.");
-        }
-
-        return createLottoTicket(Arrays.stream(lottoNumbers)
-                .mapToObj(LottoNumber::of)
-                .collect(Collectors.toSet())
-        );
+    public static LottoTicket createLottoTicket(LottoNumbers lottoNumbers) {
+        return new LottoTicket(lottoNumbers);
     }
+
 }
