@@ -25,6 +25,7 @@ public class LottoNumbers {
         }
 
         Set<LottoNumber> lottoNumbers = new HashSet<>();
+
         for (int value : values) {
             lottoNumbers.add(LottoNumber.of(value));
         }
@@ -38,6 +39,16 @@ public class LottoNumbers {
 
     public boolean hasNotSize(int size) {
         return !hasSize(size);
+    }
+
+    public int matchCount(LottoNumbers lottoNumbers) {
+        return (int) values.stream()
+                .filter(lottoNumbers::isContainLottoNumber)
+                .count();
+    }
+
+    private boolean isContainLottoNumber(LottoNumber lottoNumber) {
+        return values.contains(lottoNumber);
     }
 
     @Override
