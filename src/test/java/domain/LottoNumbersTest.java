@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,10 +23,7 @@ class LottoNumbersTest {
     void notDuplicate() {
         LottoNumbers lottoNumbers = LottoNumbers.of(1, 3, 4, 5, 6, 6, 7);
 
-        assertSoftly((it) -> {
-            it.assertThat(lottoNumbers.hasSize(6)).isTrue();
-            it.assertThat(lottoNumbers.hasNotSize(6)).isFalse();
-        });
+        assertThat(lottoNumbers.size()).isEqualTo(LottoNumbers.LOTTO_NUMBER_SIZE);
     }
 
     @DisplayName("로또 번호가 같으면 로또 번호는 같다.")
@@ -63,4 +61,14 @@ class LottoNumbersTest {
                 Arguments.of(LottoNumbers.of(1, 2, 3, 4, 5, 6), LottoNumbers.of(44, 43, 42, 41, 40, 39), 0)
         );
     }
+
+
+    @Test
+    @DisplayName("로또 번호 자동 생성 - 6개의 로또번호를 반환")
+    void generateAutoLottoNumbers_returnSixNumbers() {
+        LottoNumbers lottoNumbers = LottoNumbers.generateAutoLottoNumbers();
+
+        assertThat(lottoNumbers.size()).isEqualTo(LottoNumbers.LOTTO_NUMBER_SIZE);
+    }
+
 }

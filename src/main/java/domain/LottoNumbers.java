@@ -1,10 +1,9 @@
 package domain;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class LottoNumbers {
+    public static final int LOTTO_NUMBER_SIZE = 6;
 
     private final Set<LottoNumber> values;
 
@@ -12,7 +11,22 @@ public class LottoNumbers {
         if (values == null || values.isEmpty()) {
             throw new IllegalArgumentException("로또 번호는 1개 이상이어야 합니다.");
         }
+
+        if (values.size() != LOTTO_NUMBER_SIZE) {
+            throw new IllegalArgumentException("로또 번호는 " + LOTTO_NUMBER_SIZE + "이어야 합니다.");
+        }
+
         this.values = values;
+    }
+
+    public static LottoNumbers generateAutoLottoNumbers() {
+        List<LottoNumber> numberList = LottoNumber.getAllLottoNumberList();
+        Collections.shuffle(numberList);
+        return of(numberList.subList(0, LOTTO_NUMBER_SIZE));
+    }
+
+    public static LottoNumbers of(List<LottoNumber> numbers) {
+        return of(new HashSet<>(numbers));
     }
 
     public static LottoNumbers of(Set<LottoNumber> values) {
@@ -29,17 +43,10 @@ public class LottoNumbers {
         for (int value : values) {
             lottoNumbers.add(LottoNumber.of(value));
         }
-        
-        return new LottoNumbers(lottoNumbers);
+
+        return of(lottoNumbers);
     }
 
-    public boolean hasSize(int size) {
-        return values.size() == size;
-    }
-
-    public boolean hasNotSize(int size) {
-        return !hasSize(size);
-    }
 
     public int matchCount(LottoNumbers lottoNumbers) {
         return (int) values.stream()
@@ -50,6 +57,11 @@ public class LottoNumbers {
     private boolean isContainLottoNumber(LottoNumber lottoNumber) {
         return values.contains(lottoNumber);
     }
+
+    public int size() {
+        return values.size();
+    }
+
 
     @Override
     public boolean equals(Object o) {
