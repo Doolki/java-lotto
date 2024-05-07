@@ -34,6 +34,9 @@ public class LottoNumber {
         return new ArrayList<>(cache.values());
     }
 
+    public int getValue() {
+        return number;
+    }
 
     @Override
     public boolean equals(Object o) {
