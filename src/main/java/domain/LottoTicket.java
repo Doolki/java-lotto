@@ -3,33 +3,32 @@ package domain;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class LottoTicket {
 
-    public static final int LOTTO_PRICE = 1_000;
+    public static final int TICKET_PRICE = 1_000;
 
-    private static final int LOTTO_SIZE = 6;
+    private final List<LottoNumbers> lottoNumbers;
 
-    private final LottoNumbers lottoNumbers;
-
-    private LottoTicket(LottoNumbers lottoNumbers) {
-        if (lottoNumbers == null) {
-            throw new IllegalArgumentException("로또 번호는 비어 있으면 안됩니다.");
-        }
-
-        if (lottoNumbers.hasNotSize(LOTTO_SIZE)) {
-            throw new IllegalArgumentException("로또 번호는 " + LOTTO_SIZE + "개 이어야 합니다.");
-        }
-
+    public LottoTicket(List<LottoNumbers> lottoNumbers) {
         this.lottoNumbers = lottoNumbers;
     }
 
-    public static LottoTicket createLottoTicket(Set<LottoNumber> lottoNumbers) {
-        return new LottoTicket(LottoNumbers.of(lottoNumbers));
-    }
+    public static LottoTicket buyAutoNumberTicket(int price) {
+        if (price < TICKET_PRICE) {
+            throw new IllegalArgumentException("티켓을 살수가 없습니다.");
+        }
 
-    public static LottoTicket createLottoTicket(LottoNumbers lottoNumbers) {
+        final List<LottoNumbers> lottoNumbers = new ArrayList<>();
+
+        IntStream.rangeClosed(0, price / TICKET_PRICE)
+                .forEach((it) -> lottoNumbers.add(LottoNumbers.generateAutoLottoNumbers()));
+
         return new LottoTicket(lottoNumbers);
     }
 
+    public List<LottoNumbers> getLottoNumbers() {
+        return lottoNumbers;
+    }
 }
