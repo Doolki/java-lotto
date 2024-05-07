@@ -1,5 +1,6 @@
 package exam2;
 
+import exam2.lotto.LottoService;
 import exam2.lotto.Purchase;
 import exam2.lotto.Winning;
 import exam2.view.InputView;
@@ -15,10 +16,8 @@ public class Main {
         int price = inputView.purchasePrice();
 
         Purchase purchase = new Purchase(price);
-        int count = purchase.getCount();
 
-        resultView.purchaseCount(count);
-
+        resultView.purchaseCount(purchase.getCount());
         resultView.lottoNumberList(purchase);
 
         resultView.winningNumber();
@@ -27,12 +26,10 @@ public class Main {
 
         Winning winning = new Winning(winningNumberStr);
 
-        resultView.winningStatistics();
-
-        purchase.lottoEqualList(winning);
+        LottoService lottoService = new LottoService(purchase, winning);
+        lottoService.calculateEqualListAndRate();
 
         resultView.winningCount(purchase);
-
         resultView.winningRate(purchase);
     }
 }

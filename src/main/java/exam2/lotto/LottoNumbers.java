@@ -17,21 +17,17 @@ public class LottoNumbers {
      * 로또 마지막 번호
      */
     public static final int LOTTO_END_NUMBER = 45;
-    private List<List<Integer>> numberList = new ArrayList<>();
+    private List<Integer> numberList = new ArrayList<>();
 
-    public LottoNumbers() {
+    public LottoNumbers(List<Integer> numberList) {
+        this.numberList = numberList;
     }
 
-
     /**
-     * 개수 만큼 랜덤 로또 번호를 생성합니다.
-     *
-     * @param count
+     * 랜덤 로또 번호를 생성합니다.
      */
-    public LottoNumbers(int count) {
-        for (int i = 0; i < count; i++) {
-            numberList.add(makeLottoNumber());
-        }
+    public LottoNumbers() {
+        this.numberList = makeLottoNumber();
     }
 
     /**
@@ -49,9 +45,8 @@ public class LottoNumbers {
         isNumSix(number);
 
         isDuplicate(number);
-        this.numberList = new ArrayList<>() {{
-            add(number);
-        }};
+
+        this.numberList = number;
     }
 
     /**
@@ -133,11 +128,7 @@ public class LottoNumbers {
         return lottoNumberList;
     }
 
-    public List<List<Integer>> getNumberList() {
+    public List<Integer> getNumberList() {
         return numberList;
-    }
-
-    public void add(List<Integer> list) {
-        this.numberList.add(list);
     }
 }

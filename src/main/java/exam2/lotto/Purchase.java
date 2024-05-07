@@ -1,14 +1,29 @@
 package exam2.lotto;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ *
+ */
 //구입한 로또 클래스
 public class Purchase {
 
-    private LottoNumbers lottoNumbers = new LottoNumbers();
+    private List<LottoNumbers> lottoNumbersList = new ArrayList<>();
     private int count = 0;
-    private List<Integer> equalList;
+
+    private Map<LottoPrize, Integer> equalList = new HashMap<>() {{
+        put(LottoPrize.ZERO, 0);
+        put(LottoPrize.ONE, 0);
+        put(LottoPrize.TWO, 0);
+        put(LottoPrize.THREE, 0);
+        put(LottoPrize.FOUR, 0);
+        put(LottoPrize.FIVE, 0);
+        put(LottoPrize.SIX, 0);
+    }};
     private double rate;
 
     public Purchase() {
@@ -21,63 +36,36 @@ public class Purchase {
 
         this.count = (int) (price / LottoPrice.PRICE_1000.getPrice());
 
-        lottoNumbers = new LottoNumbers(count);
+        for (int i = 0; i < count; i++) {
+            lottoNumbersList.add(new LottoNumbers());
+        }
     }
 
     /**
-     * 모든 로또 번호의 당첨 개수를 계산하고 수익률을 계산합니다
+     * 모든 로또 번호의 당첨 개수를 계산합니다
      *
      * @param winning
      */
-    public void lottoEqualList(Winning winning) {
-        equalList = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
+    public void calculateEqualList(Winning winning) {
+        for (int i = 0; i < lottoNumbersList.size(); i++) {
 
-        for (List<Integer> list : lottoNumbers.getNumberList()) {
-            int index = equalCount(list, winning);
-            equalList.set(index, equalList.get(index) + 1);
+            int count = (int) lottoNumbersList.get(i).getNumberList().stream()
+                .filter(lottoNum -> winning.getLottoNumbers().getNumberList().contains(lottoNum))
+                .count();
+
+            this.equalList.put(LottoPrize.getLottoPrize(count),
+                this.equalList.get(LottoPrize.getLottoPrize(count)) + 1);
         }
-
-        this.rate();
-    }
-
-    /**
-     * 로또 당첨 개수를 계산합니다
-     *
-     * @param list
-     * @param winning
-     * @return
-     */
-    public int equalCount(List<Integer> list, Winning winning) {
-        int equalCount = 0;
-        for (Integer lottoNum : list) {
-            equalCount += isEqual(lottoNum, winning);
-        }
-        return equalCount;
-    }
-
-    /**
-     * 로또 번호 1개 당첨 여부를 확인합니다
-     *
-     * @param lottoNum
-     * @param winning
-     * @return
-     */
-    public int isEqual(int lottoNum, Winning winning) {
-        int equal = 0;
-        if (winning.getLottoNumbers().getNumberList().get(0).contains(lottoNum)) {
-            equal = 1;
-        }
-        return equal;
     }
 
     /**
      * 당첨 통계를 계산합니다
      */
     public void rate() {
-        double sum = equalList.get(3) * LottoPrize.THREE.getPrize()
-            + equalList.get(4) * LottoPrize.FOUR.getPrize()
-            + equalList.get(5) * LottoPrize.FIVE.getPrize()
-            + equalList.get(6) * LottoPrize.SIX.getPrize();
+        double sum = 0;
+        for (LottoPrize key : equalList.keySet()) {
+            sum += equalList.get(key) * key.getPrize();
+        }
 
         if (sum == 0) {
             rate = 0;
@@ -85,11 +73,6 @@ public class Purchase {
         }
 
         this.rate = Math.floor((sum / (count * LottoPrice.PRICE_1000.getPrice())) * 100.0) / 100.0;
-    }
-
-    public void add(List<Integer> list) {
-        lottoNumbers.add(list);
-        count += 1;
     }
 
     public int getCount() {
@@ -100,12 +83,16 @@ public class Purchase {
         return rate;
     }
 
-    public List<Integer> getEqualList() {
+    public List<LottoNumbers> getLottoNumbersList() {
+        return lottoNumbersList;
+    }
+
+    public Map<LottoPrize, Integer> getEqualList() {
         return equalList;
     }
 
-    public LottoNumbers getLottoNumbers() {
-        return lottoNumbers;
+    public void add(LottoNumbers lottoNumbers) {
+        lottoNumbersList.add(lottoNumbers);
+        this.count += 1;
     }
-
 }

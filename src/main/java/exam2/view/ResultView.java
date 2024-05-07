@@ -1,5 +1,6 @@
 package exam2.view;
 
+import exam2.lotto.LottoNumbers;
 import exam2.lotto.Purchase;
 import exam2.lotto.LottoPrize;
 import java.util.List;
@@ -15,8 +16,8 @@ public class ResultView {
     }
 
     public void lottoNumberList(Purchase purchase) {
-        for (List<Integer> p : purchase.getLottoNumbers().getNumberList()) {
-            System.out.println(p);
+        for (LottoNumbers p : purchase.getLottoNumbersList()) {
+            System.out.println(p.getNumberList());
         }
 
     }
@@ -25,26 +26,16 @@ public class ResultView {
         System.out.println("지난 주 당첨 번호를 입력해 주세요.");
     }
 
-    public void winningStatistics() {
+    public void winningCount(Purchase purchase) {
         System.out.println("당첨 통계");
         System.out.println("---------");
-    }
 
-    public void winningCount(Purchase purchase) {
         for (int i = 3; i <= 6; i++) {
+            LottoPrize lottoPrize = LottoPrize.getLottoPrize(i);
             System.out.println(
-                i + "개 일치 (" + LottoPrize.values()[i].getPrize() + "원)- "
-                    + purchase.getEqualList().get(i) + "");
+                i + "개 일치 (" + lottoPrize.getPrize() + "원)- "
+                    + purchase.getEqualList().get(lottoPrize) + "");
         }
-
-        String str =
-            "3개 일치(" + LottoPrize.THREE.getPrize() + "원)- " + purchase.getEqualList().get(3) + "\n"
-                + "4개 일치(" + LottoPrize.FOUR.getPrize() + "원)- " + purchase.getEqualList().get(4)
-                + "\n"
-                + "5개 일치(" + LottoPrize.FIVE.getPrize() + "원)- " + purchase.getEqualList().get(5)
-                + "\n"
-                + "6개 일치(" + LottoPrize.SIX.getPrize() + "원)- " + purchase.getEqualList().get(6)
-                + "\n";
     }
 
     public void winningRate(Purchase purchase) {
