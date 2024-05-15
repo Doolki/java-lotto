@@ -1,4 +1,4 @@
-package Exam1;
+package exam1;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

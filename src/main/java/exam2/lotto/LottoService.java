@@ -2,11 +2,11 @@ package exam2.lotto;
 
 public class LottoService {
 
-    private Purchase purchase;
+    private PurchaseTicket purchase;
 
-    private Winning winning;
+    private WinningNumber winning;
 
-    public LottoService(Purchase purchase, Winning winning) {
+    public LottoService(PurchaseTicket purchase, WinningNumber winning) {
         this.purchase = purchase;
         this.winning = winning;
     }
@@ -15,7 +15,7 @@ public class LottoService {
      * 로또 당첨 개수와 비율을 계산합니다.
      */
     public void calculateEqualListAndRate() {
-        purchase.calculateEqualList(winning);
+        purchase.calculateMatchCount(winning);
         purchase.rate();
     }
 

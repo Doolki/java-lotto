@@ -33,18 +33,20 @@ public class LottoNumbers {
     /**
      * 문자열이 들어오면 해당 문자열로 로또 번호를 만듭니다.
      *
-     * @param lottoStr
+     * @param inputNumbers
      */
-    public LottoNumbers(String lottoStr) {
-        isEmpty(lottoStr);
+    public LottoNumbers(String inputNumbers) {
+        if (inputNumbers.isEmpty()) {
+            throw new IllegalArgumentException("로또 번호는 6개여야 합니다");
+        }
 
-        String[] splitStr = lottoStr.split(",");
+        String[] numberArray = inputNumbers.split(",");
 
-        List<Integer> number = isCorrectRange(splitStr);
+        List<Integer> number = checkValidRange(numberArray);
 
-        isNumSix(number);
+        checkValidLength(number);
 
-        isDuplicate(number);
+        checkDuplicateNumber(number);
 
         this.numberList = number;
     }
@@ -52,26 +54,26 @@ public class LottoNumbers {
     /**
      * 로또 범위가 맞는지 확인합니다.
      *
-     * @param splitStr
+     * @param inputNumbers
      * @return
      */
-    private List<Integer> isCorrectRange(String[] splitStr) {
+    private List<Integer> checkValidRange(String[] inputNumbers) {
         List<Integer> number = new ArrayList<>();
 
-        for (String s : splitStr) {
-            int num = 0;
+        for (String num : inputNumbers) {
+            int lottoNumber = 0;
 
             try {
-                num = Integer.parseInt(s.trim());
+                lottoNumber = Integer.parseInt(num.trim());
             } catch (NumberFormatException e) {
                 throw new NumberFormatException("숫자가 아닌 값을 입력할 수 없습니다");
             }
 
-            if (!(num <= LOTTO_END_NUMBER && num >= LOTTO_START_NUMBER)) {
-                throw new RuntimeException("1 ~ 45 사이 값을 입력 해주세요");
+            if (!(lottoNumber <= LOTTO_END_NUMBER && lottoNumber >= LOTTO_START_NUMBER)) {
+                throw new IllegalArgumentException("1 ~ 45 사이 값을 입력 해주세요");
             }
 
-            number.add(Integer.parseInt(s.trim()));
+            number.add(Integer.parseInt(num.trim()));
         }
         return number;
     }
@@ -81,10 +83,10 @@ public class LottoNumbers {
      *
      * @param number
      */
-    private void isDuplicate(List<Integer> number) {
+    private void checkDuplicateNumber(List<Integer> number) {
         Set<Integer> set = new HashSet<>(number);
         if (set.size() != number.size()) {
-            throw new RuntimeException("중복된 값은 입력할 수 없습니다");
+            throw new IllegalArgumentException("중복된 값은 입력할 수 없습니다");
         }
     }
 
@@ -93,20 +95,9 @@ public class LottoNumbers {
      *
      * @param number
      */
-    private void isNumSix(List<Integer> number) {
+    private void checkValidLength(List<Integer> number) {
         if (number.size() != 6) {
-            throw new RuntimeException("로또 번호는 6개여야 합니다");
-        }
-    }
-
-    /**
-     * 로또 번호가 비었는지 확인합니다.
-     *
-     * @param lottoStr
-     */
-    private static void isEmpty(String lottoStr) {
-        if (lottoStr.isEmpty()) {
-            throw new RuntimeException("로또 번호는 6개여야 합니다");
+            throw new IllegalArgumentException("로또 번호는 6개여야 합니다");
         }
     }
 
@@ -131,4 +122,5 @@ public class LottoNumbers {
     public List<Integer> getNumberList() {
         return numberList;
     }
+
 }

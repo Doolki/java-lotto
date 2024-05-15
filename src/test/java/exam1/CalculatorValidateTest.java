@@ -1,4 +1,4 @@
-package Exam1;
+package exam1;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class CalculatorValidateTest {
         assertThatThrownBy(() -> {
             calculatorValidate.checkException(input);
         })
-            .isInstanceOf(RuntimeException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("숫자가 아닌 요소는 전달이 불가능 합니다");
 
     }
@@ -32,7 +32,7 @@ class CalculatorValidateTest {
         assertThatThrownBy(() -> {
             calculatorValidate.checkException(input);
         })
-            .isInstanceOf(RuntimeException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("음수 값은 전달이 불가능 합니다");
     }
 }

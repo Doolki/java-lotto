@@ -1,4 +1,4 @@
-package Exam1;
+package exam1;
 
 public class CalculatorValidate {
 
@@ -23,7 +23,7 @@ public class CalculatorValidate {
     //음수인지 확인
     public void isPositive(int num) {
         if (num < 0) {
-            throw new RuntimeException("음수 값은 전달이 불가능 합니다");
+            throw new IllegalArgumentException("음수 값은 전달이 불가능 합니다");
         }
     }
 }

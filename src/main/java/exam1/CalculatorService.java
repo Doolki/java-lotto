@@ -1,4 +1,4 @@
-package Exam1;
+package exam1;
 
 public class CalculatorService {
 

@@ -1,4 +1,4 @@
-package Exam1;
+package exam1;
 
 import java.util.Arrays;
 import java.util.regex.Matcher;
