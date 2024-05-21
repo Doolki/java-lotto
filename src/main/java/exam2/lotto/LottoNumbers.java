@@ -40,9 +40,9 @@ public class LottoNumbers {
             throw new IllegalArgumentException("로또 번호는 6개여야 합니다");
         }
 
-        String[] numberArray = inputNumbers.split(",");
+        String[] numbers = inputNumbers.split(",");
 
-        List<Integer> number = checkValidRange(numberArray);
+        List<Integer> number = checkValidRange(numbers);
 
         checkValidLength(number);
 
@@ -99,6 +99,10 @@ public class LottoNumbers {
         if (number.size() != 6) {
             throw new IllegalArgumentException("로또 번호는 6개여야 합니다");
         }
+    }
+
+    public boolean checkContainsNumber(int number) {
+        return numberList.contains(number);
     }
 
     /**

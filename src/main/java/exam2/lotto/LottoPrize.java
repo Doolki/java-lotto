@@ -1,5 +1,7 @@
 package exam2.lotto;
 
+import java.util.Arrays;
+
 public enum LottoPrize {
     ZERO(0, 0),
     ONE(1, 0),
@@ -30,7 +32,14 @@ public enum LottoPrize {
     }
 
     public static LottoPrize getLottoPrize(int index) {
-        return LottoPrize.values()[index];
+        return Arrays.stream(LottoPrize.values())
+            .filter((it) -> it.equalIndex(index))
+            .findFirst()
+            .orElse(LottoPrize.ZERO);
+    }
+
+    public boolean equalIndex(int index) {
+        return this.index == index;
     }
 }
 

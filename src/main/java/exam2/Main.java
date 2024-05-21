@@ -26,8 +26,8 @@ public class Main {
 
         WinningNumber winning = new WinningNumber(winningNumberStr);
 
-        LottoService lottoService = new LottoService(purchase, winning);
-        lottoService.calculateEqualListAndRate();
+        LottoService lottoService = new LottoService();
+        lottoService.calculateEqualListAndRate(purchase, winning);
 
         resultView.winningCount(purchase);
         resultView.winningRate(purchase);

@@ -44,40 +44,35 @@ public class PurchaseTicket {
      * @param winning
      */
     public void calculateMatchCount(WinningNumber winning) {
-        for (int i = 0; i < lottoNumbersList.size(); i++) {
-
-            int count = (int) lottoNumbersList.get(i).getNumberList().stream()
-                .filter(lottoNum -> winning.getLottoNumbers().getNumberList().contains(lottoNum))
+        for (LottoNumbers lottoNumbers : lottoNumbersList) {
+            int count = (int) lottoNumbers.getNumberList().stream()
+                .filter(lottoNum -> winning.getLottoNumbers().checkContainsNumber(lottoNum))
                 .count();
 
-            this.matchCount.put(LottoPrize.getLottoPrize(count),
-                this.matchCount.get(LottoPrize.getLottoPrize(count)) + 1);
+            LottoPrize lottoPrize = LottoPrize.getLottoPrize(count);
+
+            this.matchCount.put(lottoPrize, this.matchCount.get(lottoPrize) + 1);
         }
     }
 
     /**
      * 당첨 통계를 계산합니다
      */
-    public void rate() {
+    public double getRate() {
         double sum = 0;
         for (LottoPrize key : matchCount.keySet()) {
             sum += matchCount.get(key) * key.getPrize();
         }
 
         if (sum == 0) {
-            rate = 0;
-            return;
+            return 0;
         }
 
-        this.rate = Math.floor((sum / (count * LottoPrice.PRICE_1000.getPrice())) * 100.0) / 100.0;
+        return Math.floor((sum / (count * LottoPrice.PRICE_1000.getPrice())) * 100.0) / 100.0;
     }
 
     public int getCount() {
         return count;
-    }
-
-    public double getRate() {
-        return rate;
     }
 
     public List<LottoNumbers> getLottoNumbersList() {

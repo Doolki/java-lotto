@@ -10,7 +10,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class PurchaseTest {
+class PurchaseTicketTest {
 
     @DisplayName("모든 로또 번호 당첨 개수를 계산합니다")
     @Test
@@ -64,7 +64,7 @@ class PurchaseTest {
         PurchaseTicket purchase = new PurchaseTicket(lottoNumberList);
 
         purchase.calculateMatchCount(winningNumbers); // 당첨 개수 계산
-        purchase.rate(); // 수익 비율 계산
+        purchase.getRate(); // 수익 비율 계산
 
         double expect = 0.35;
 

@@ -33,9 +33,9 @@ class LottoServiceTest {
 
         PurchaseTicket purchase = new PurchaseTicket(lottoNumberList);
 
-        LottoService lottoService = new LottoService(purchase, winningNumbers);
+        LottoService lottoService = new LottoService();
 
-        lottoService.calculateEqualListAndRate();
+        lottoService.calculateEqualListAndRate(purchase, winningNumbers);
 
         double expect = 0.35;
 
