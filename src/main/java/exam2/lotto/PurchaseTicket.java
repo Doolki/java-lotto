@@ -10,15 +10,15 @@ import java.util.Map;
  */
 public class PurchaseTicket {
 
-    private List<LottoNumbers> lottoNumbersList = new ArrayList<>();
+    private List<LottoNumberRow> lottoNumberRowList = new ArrayList<>();
     private int count = 0;
 
     private Map<LottoPrize, Integer> matchCount = new HashMap<>();
     private double rate;
 
-    public PurchaseTicket(List<LottoNumbers> lottoNumbersList) {
-        this.lottoNumbersList = lottoNumbersList;
-        this.count = lottoNumbersList.size();
+    public PurchaseTicket(List<LottoNumberRow> lottoNumberRowList) {
+        this.lottoNumberRowList = lottoNumberRowList;
+        this.count = lottoNumberRowList.size();
         initMatchCount();
     }
 
@@ -29,13 +29,13 @@ public class PurchaseTicket {
 
         int count = price / LottoPrice.PRICE_1000.getPrice();
 
-        List<LottoNumbers> lottoNumbersList = new ArrayList<>();
+        List<LottoNumberRow> lottoNumberRowList = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            lottoNumbersList.add(new LottoNumbers());
+            lottoNumberRowList.add(new LottoNumberRow());
         }
 
-        return new PurchaseTicket(lottoNumbersList);
+        return new PurchaseTicket(lottoNumberRowList);
     }
 
     /**
@@ -44,12 +44,24 @@ public class PurchaseTicket {
      * @param winning
      */
     public void calculateMatchCount(WinningNumber winning) {
-        for (LottoNumbers lottoNumbers : lottoNumbersList) {
-            int count = (int) lottoNumbers.getNumberList().stream()
+
+        if (winning.getBonusNumber() == null) {
+            throw new NullPointerException("보너스 번호를 넣어주세요");
+        }
+
+        for (LottoNumberRow lottoNumberRow : lottoNumberRowList) {
+
+            //당첨 개수 세기
+            int count = (int) lottoNumberRow.getNumberList().stream()
                 .filter(lottoNum -> winning.getLottoNumbers().checkContainsNumber(lottoNum))
                 .count();
 
-            LottoPrize lottoPrize = LottoPrize.getLottoPrize(count);
+            //보너스 당첨 개수 확인
+            int bonus = (int) lottoNumberRow.getNumberList().stream()
+                .filter(lottoNum -> winning.getBonusNumber().equals(lottoNum))
+                .count();
+
+            LottoPrize lottoPrize = LottoPrize.getLottoPrize(count, bonus);
 
             this.matchCount.put(lottoPrize, this.matchCount.get(lottoPrize) + 1);
         }
@@ -75,16 +87,16 @@ public class PurchaseTicket {
         return count;
     }
 
-    public List<LottoNumbers> getLottoNumbersList() {
-        return lottoNumbersList;
+    public List<LottoNumberRow> getLottoNumbersList() {
+        return lottoNumberRowList;
     }
 
     public Map<LottoPrize, Integer> getMatchCount() {
         return matchCount;
     }
 
-    public void add(LottoNumbers lottoNumbers) {
-        lottoNumbersList.add(lottoNumbers);
+    public void add(LottoNumberRow lottoNumberRow) {
+        lottoNumberRowList.add(lottoNumberRow);
         this.count += 1;
     }
 
@@ -95,6 +107,7 @@ public class PurchaseTicket {
         matchCount.put(LottoPrize.THREE, 0);
         matchCount.put(LottoPrize.FOUR, 0);
         matchCount.put(LottoPrize.FIVE, 0);
+        matchCount.put(LottoPrize.BONUS, 0);
         matchCount.put(LottoPrize.SIX, 0);
     }
 }

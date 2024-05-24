@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("로또 계산기")
-class LottoNumbersTest {
+class LottoNumberRowTest {
 
     @DisplayName("로또 구입 가격은 1000원 이상 이여야 합니다")
     @ParameterizedTest
@@ -36,17 +36,18 @@ class LottoNumbersTest {
     @DisplayName("랜덤으로 생성된 로또 번호는 1~45 사이 값 입니다")
     @Test
     void 랜덤으로_생성된_로또번호는_1_45_사이_값_입니다() {
-        LottoNumbers lottoNumbers = new LottoNumbers();
+        LottoNumberRow lottoNumberRow = new LottoNumberRow();
 
-        assertThat(lottoNumbers.getNumberList()).allMatch(number -> number >= 1 && number <= 45);
+        assertThat(lottoNumberRow.getNumberList()).allMatch(
+            number -> number.getNumber() >= 1 && number.getNumber() <= 45);
     }
 
     @DisplayName("랜덤으로 생성된 로또 번호는 6개로 이루어져 있습니다")
     @Test
     void 랜덤으로_생성된_로또_번호는_6개로_이루어져_있습니다() {
-        LottoNumbers lottoNumbers = new LottoNumbers();
+        LottoNumberRow lottoNumberRow = new LottoNumberRow();
 
-        assertThat(lottoNumbers.getNumberList()).hasSize(6);
+        assertThat(lottoNumberRow.getNumberList()).hasSize(6);
     }
 
     @DisplayName("로또 당첨 번호는 6개여야 합니다")
@@ -85,6 +86,7 @@ class LottoNumbersTest {
     @ParameterizedTest
     @ValueSource(strings = {"1, 2, 3, 4, 1, 45"})
     void 로또_당첨_번호는_중복될_수_없습니다(String input) {
+
         assertThatThrownBy(() -> {
             new WinningNumber(input);
         }).isInstanceOf(IllegalArgumentException.class)
