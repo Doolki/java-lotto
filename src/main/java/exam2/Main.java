@@ -23,11 +23,8 @@ public class Main {
         resultView.winningNumber();
 
         String winningNumberStr = inputView.winningNumber();
-        WinningNumber winning = new WinningNumber(winningNumberStr);
 
-        resultView.bonusNumber();
-        int bonusNumber = inputView.bonusNumber();
-        winning.makeBonusNumber(bonusNumber);
+        WinningNumber winning = new WinningNumber(winningNumberStr);
 
         LottoService lottoService = new LottoService();
         lottoService.calculateEqualListAndRate(purchase, winning);
