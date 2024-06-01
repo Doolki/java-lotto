@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 public enum LottoPrize {
     ZERO(8, 0, 0, 0),
-    ONE(7, 1, 0, 0),
-    TWO(6, 2, 0, 0),
-    THREE(5, 3, 0, 5_000),
-    FOUR(4, 4, 0, 50_000),
-    FIVE(3, 5, 0, 1_500_000),
+    SIXTH(7, 1, 0, 0),
+    FIFTH(6, 2, 0, 0),
+    FOURTH(5, 3, 0, 5_000),
+    THIRD(4, 4, 0, 50_000),
+    SECOND(3, 5, 0, 1_500_000),
     BONUS(2, 5, 1, 30_000_000),
-    SIX(1, 6, 0, 2_000_000_000);
+    FIRST(1, 6, 0, 2_000_000_000);
 
     private final int rank;
     private final int bonus;
@@ -22,10 +22,6 @@ public enum LottoPrize {
         this.match = match;
         this.prize = prize;
         this.bonus = bonus;
-    }
-
-    public int getRank() {
-        return rank;
     }
 
     public int getMatch() {

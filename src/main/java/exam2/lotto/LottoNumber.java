@@ -14,8 +14,11 @@ public class LottoNumber implements Comparable<LottoNumber> {
      */
     public static final int LOTTO_END_NUMBER = 45;
 
-    private int number;
+    private final int number;
 
+    public LottoNumber(int number) {
+        this.number = checkValidRange(number);
+    }
 
     /**
      * 로또 번호 유효성 체크
@@ -23,11 +26,7 @@ public class LottoNumber implements Comparable<LottoNumber> {
      * @param number
      */
     public LottoNumber(String number) {
-        this.number = checkValidRange(number);
-    }
-
-    public LottoNumber(int number) {
-        this.number = checkValidRange(number);
+        this(checkValidNumber(number));
     }
 
     /**
@@ -36,25 +35,17 @@ public class LottoNumber implements Comparable<LottoNumber> {
      * @param inputNumber
      * @return
      */
-    public int checkValidRange(String inputNumber) {
-        int lottoNumber = 0;
-
+    private static int checkValidNumber(String inputNumber) {
         try {
-            lottoNumber = Integer.parseInt(inputNumber.trim());
+            return Integer.parseInt(inputNumber.trim());
         } catch (NumberFormatException e) {
             throw new NumberFormatException("숫자가 아닌 값을 입력할 수 없습니다");
         }
-
-        if (!(lottoNumber <= LOTTO_END_NUMBER && lottoNumber >= LOTTO_START_NUMBER)) {
-            throw new IllegalArgumentException("1 ~ 45 사이 값을 입력 해주세요");
-        }
-
-        return Integer.parseInt(inputNumber.trim());
     }
 
-    public int checkValidRange(int inputNumber) {
+    private static int checkValidRange(int inputNumber) {
         if (!(inputNumber <= LOTTO_END_NUMBER && inputNumber >= LOTTO_START_NUMBER)) {
-            throw new IllegalArgumentException("1 ~ 45 사이 값을 입력 해주세요");
+            throw new IllegalArgumentException("로또번호는 1 ~ 45 사이 값 이어야 합니다");
         }
 
         return inputNumber;

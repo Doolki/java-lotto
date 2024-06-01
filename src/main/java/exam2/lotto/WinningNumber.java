@@ -7,11 +7,8 @@ public class WinningNumber {
 
     private LottoNumber bonusNumber;
 
-    public WinningNumber(String lottoStr) {
+    public WinningNumber(String lottoStr, int bonusNumber) {
         this.winningNumbers = new LottoNumberRow(lottoStr);
-    }
-
-    public void makeBonusNumber(int bonusNumber) {
 
         LottoNumber bonusLottoNumber = new LottoNumber(bonusNumber);
 

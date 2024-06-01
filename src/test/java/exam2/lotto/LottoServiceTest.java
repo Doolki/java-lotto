@@ -13,8 +13,7 @@ class LottoServiceTest {
     @DisplayName("로또 당첨 개수와 비율을 계산합니다")
     @Test
     void 로또_당첨_개수와_비율을_계산합니다() {
-        WinningNumber winningNumbers = new WinningNumber("1,2,3,4,5,6");
-        winningNumbers.makeBonusNumber(39);
+        WinningNumber winningNumbers = new WinningNumber("1,2,3,4,5,6", 39);
 
         List<LottoNumberRow> lottoNumberList = new ArrayList<>();
         lottoNumberList.add(new LottoNumberRow(Arrays.asList(8, 21, 23, 41, 42, 43)));

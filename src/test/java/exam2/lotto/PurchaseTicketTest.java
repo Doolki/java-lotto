@@ -15,8 +15,7 @@ class PurchaseTicketTest {
     @DisplayName("모든 로또 번호 당첨 개수를 계산합니다")
     @Test
     void 모든_로또_번호_당첨_개수를_계산합니다() {
-        WinningNumber winningNumbers = new WinningNumber("1,2,3,4,5,6");
-        winningNumbers.makeBonusNumber(40);
+        WinningNumber winningNumbers = new WinningNumber("1,2,3,4,5,6", 40);
 
         List<LottoNumberRow> lottoNumberList = new ArrayList<>();
 
@@ -30,13 +29,13 @@ class PurchaseTicketTest {
 
         Map<LottoPrize, Integer> expect = new HashMap<>() {{
             put(LottoPrize.ZERO, 1);
-            put(LottoPrize.ONE, 0);
-            put(LottoPrize.TWO, 1);
-            put(LottoPrize.THREE, 0);
-            put(LottoPrize.FOUR, 0);
-            put(LottoPrize.FIVE, 0);
+            put(LottoPrize.SIXTH, 0);
+            put(LottoPrize.FIFTH, 1);
+            put(LottoPrize.FOURTH, 0);
+            put(LottoPrize.THIRD, 0);
+            put(LottoPrize.SECOND, 0);
             put(LottoPrize.BONUS, 1);
-            put(LottoPrize.SIX, 0);
+            put(LottoPrize.FIRST, 0);
         }};
 
         assertThat(purchase.getMatchCount()).isEqualTo(expect);
@@ -45,8 +44,7 @@ class PurchaseTicketTest {
     @DisplayName("수익 비율을 계산합니다")
     @Test
     void 수익_비율을_계산합니다() {
-        WinningNumber winningNumbers = new WinningNumber("1,2,3,4,5,6");
-        winningNumbers.makeBonusNumber(39);
+        WinningNumber winningNumbers = new WinningNumber("1,2,3,4,5,6", 39);
 
         List<LottoNumberRow> lottoNumberList = new ArrayList<>();
 

@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-@DisplayName("로또 계산기")
+@DisplayName("로또 행 테스트")
 class LottoNumberRowTest {
 
     @DisplayName("로또 구입 가격은 1000원 이상 이여야 합니다")
@@ -56,7 +56,7 @@ class LottoNumberRowTest {
     void 로또_당첨_번호는_6개여야_합니다(String input) {
 
         assertThatThrownBy(() -> {
-            new WinningNumber(input);
+            new WinningNumber(input, 30);
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("로또 번호는 6개여야 합니다");
     }
@@ -67,9 +67,9 @@ class LottoNumberRowTest {
     void 로또_당첨_번호는_1_45_사이_값이여야_합니다(String input) {
 
         assertThatThrownBy(() -> {
-            new WinningNumber(input);
+            new WinningNumber(input, 20);
         }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("1 ~ 45 사이 값을 입력 해주세요");
+            .hasMessage("로또번호는 1 ~ 45 사이 값 이어야 합니다");
     }
 
     @DisplayName("로또 당첨 번호는 숫자가 아닌 값을 입력할 수 없습니다")
@@ -77,7 +77,7 @@ class LottoNumberRowTest {
     @ValueSource(strings = {"1, d2, df3, 4, 5, 100", "1, df2, 100, 4, a5, 6"})
     void 로또_당첨_번호는_숫자가_아닌_값을_입력할_수_없습니다(String input) {
         assertThatThrownBy(() -> {
-            new WinningNumber(input);
+            new WinningNumber(input, 30);
         }).isInstanceOf(NumberFormatException.class)
             .hasMessage("숫자가 아닌 값을 입력할 수 없습니다");
     }
@@ -88,7 +88,7 @@ class LottoNumberRowTest {
     void 로또_당첨_번호는_중복될_수_없습니다(String input) {
 
         assertThatThrownBy(() -> {
-            new WinningNumber(input);
+            new WinningNumber(input, 30);
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("중복된 값은 입력할 수 없습니다");
     }

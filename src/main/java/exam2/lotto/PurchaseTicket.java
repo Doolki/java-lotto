@@ -102,12 +102,12 @@ public class PurchaseTicket {
 
     private void initMatchCount() {
         matchCount.put(LottoPrize.ZERO, 0);
-        matchCount.put(LottoPrize.ONE, 0);
-        matchCount.put(LottoPrize.TWO, 0);
-        matchCount.put(LottoPrize.THREE, 0);
-        matchCount.put(LottoPrize.FOUR, 0);
-        matchCount.put(LottoPrize.FIVE, 0);
+        matchCount.put(LottoPrize.FIRST, 0);
+        matchCount.put(LottoPrize.SECOND, 0);
+        matchCount.put(LottoPrize.THIRD, 0);
+        matchCount.put(LottoPrize.FOURTH, 0);
+        matchCount.put(LottoPrize.FIFTH, 0);
         matchCount.put(LottoPrize.BONUS, 0);
-        matchCount.put(LottoPrize.SIX, 0);
+        matchCount.put(LottoPrize.SIXTH, 0);
     }
 }
