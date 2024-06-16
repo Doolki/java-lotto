@@ -39,35 +39,6 @@ public class PurchaseTicket {
     }
 
     /**
-     * 모든 로또 번호의 당첨 개수를 계산 합니다
-     *
-     * @param winning
-     */
-    public void calculateMatchCount(WinningNumber winning) {
-
-        if (winning.getBonusNumber() == null) {
-            throw new NullPointerException("보너스 번호를 넣어주세요");
-        }
-
-        for (LottoNumberRow lottoNumberRow : lottoNumberRowList) {
-
-            //당첨 개수 세기
-            int count = (int) lottoNumberRow.getNumberList().stream()
-                .filter(lottoNum -> winning.getLottoNumbers().checkContainsNumber(lottoNum))
-                .count();
-
-            //보너스 당첨 개수 확인
-            int bonus = (int) lottoNumberRow.getNumberList().stream()
-                .filter(lottoNum -> winning.getBonusNumber().equals(lottoNum))
-                .count();
-
-            LottoPrize lottoPrize = LottoPrize.getLottoPrize(count, bonus);
-
-            this.matchCount.put(lottoPrize, this.matchCount.get(lottoPrize) + 1);
-        }
-    }
-
-    /**
      * 당첨 통계를 계산합니다
      */
     public double getRate() {
@@ -87,7 +58,7 @@ public class PurchaseTicket {
         return count;
     }
 
-    public List<LottoNumberRow> getLottoNumbersList() {
+    public List<LottoNumberRow> getLottoNumberRowList() {
         return lottoNumberRowList;
     }
 
@@ -107,7 +78,7 @@ public class PurchaseTicket {
         matchCount.put(LottoPrize.THIRD, 0);
         matchCount.put(LottoPrize.FOURTH, 0);
         matchCount.put(LottoPrize.FIFTH, 0);
-        matchCount.put(LottoPrize.BONUS, 0);
         matchCount.put(LottoPrize.SIXTH, 0);
+        matchCount.put(LottoPrize.SEVENTH, 0);
     }
 }

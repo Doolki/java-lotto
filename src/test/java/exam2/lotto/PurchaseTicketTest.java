@@ -25,16 +25,16 @@ class PurchaseTicketTest {
 
         PurchaseTicket purchase = new PurchaseTicket(lottoNumberList);
 
-        purchase.calculateMatchCount(winningNumbers);
+        winningNumbers.calculateMatchCount(purchase);
 
         Map<LottoPrize, Integer> expect = new HashMap<>() {{
             put(LottoPrize.ZERO, 1);
-            put(LottoPrize.SIXTH, 0);
-            put(LottoPrize.FIFTH, 1);
+            put(LottoPrize.SEVENTH, 0);
+            put(LottoPrize.SIXTH, 1);
+            put(LottoPrize.FIFTH, 0);
             put(LottoPrize.FOURTH, 0);
             put(LottoPrize.THIRD, 0);
-            put(LottoPrize.SECOND, 0);
-            put(LottoPrize.BONUS, 1);
+            put(LottoPrize.SECOND, 1);
             put(LottoPrize.FIRST, 0);
         }};
 
@@ -65,7 +65,7 @@ class PurchaseTicketTest {
 
         PurchaseTicket purchase = new PurchaseTicket(lottoNumberList);
 
-        purchase.calculateMatchCount(winningNumbers); // 당첨 개수 계산
+        winningNumbers.calculateMatchCount(purchase); // 당첨 개수 계산
         purchase.getRate(); // 수익 비율 계산
 
         double expect = 0.35;

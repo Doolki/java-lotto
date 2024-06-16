@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 public enum LottoPrize {
     ZERO(8, 0, 0, 0),
-    SIXTH(7, 1, 0, 0),
-    FIFTH(6, 2, 0, 0),
-    FOURTH(5, 3, 0, 5_000),
-    THIRD(4, 4, 0, 50_000),
-    SECOND(3, 5, 0, 1_500_000),
-    BONUS(2, 5, 1, 30_000_000),
+    SEVENTH(7, 1, 0, 0),
+    SIXTH(6, 2, 0, 0),
+    FIFTH(5, 3, 0, 5_000),
+    FOURTH(4, 4, 0, 50_000),
+    THIRD(3, 5, 0, 1_500_000),
+    SECOND(2, 5, 1, 30_000_000),
     FIRST(1, 6, 0, 2_000_000_000);
 
     private final int rank;

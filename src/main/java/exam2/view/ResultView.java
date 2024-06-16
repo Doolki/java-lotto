@@ -15,7 +15,7 @@ public class ResultView {
     }
 
     public void lottoNumberList(PurchaseTicket purchase) {
-        for (LottoNumberRow p : purchase.getLottoNumbersList()) {
+        for (LottoNumberRow p : purchase.getLottoNumberRowList()) {
             System.out.println(p.getNumberList());
         }
 
