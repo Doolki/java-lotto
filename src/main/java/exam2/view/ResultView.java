@@ -1,6 +1,6 @@
 package exam2.view;
 
-import exam2.lotto.LottoNumbers;
+import exam2.lotto.LottoNumberRow;
 import exam2.lotto.PurchaseTicket;
 import exam2.lotto.LottoPrize;
 
@@ -15,7 +15,7 @@ public class ResultView {
     }
 
     public void lottoNumberList(PurchaseTicket purchase) {
-        for (LottoNumbers p : purchase.getLottoNumbersList()) {
+        for (LottoNumberRow p : purchase.getLottoNumberRowList()) {
             System.out.println(p.getNumberList());
         }
 
@@ -25,15 +25,21 @@ public class ResultView {
         System.out.println("지난 주 당첨 번호를 입력해 주세요.");
     }
 
+    public void bonusNumber() {
+        System.out.println("보너스 볼을 입력해 주세요.");
+    }
+
     public void winningCount(PurchaseTicket purchase) {
         System.out.println("당첨 통계");
         System.out.println("---------");
 
-        for (int i = 3; i <= 6; i++) {
-            LottoPrize lottoPrize = LottoPrize.getLottoPrize(i);
+        for (int i = 1; i <= 5; i++) {
+            LottoPrize lottoPrize = LottoPrize.getLottoRank(i);
             System.out.println(
-                i + "개 일치 (" + lottoPrize.getPrize() + "원)- "
-                    + purchase.getMatchCount().get(lottoPrize) + "");
+                lottoPrize.getMatch() + "개 일치" +
+                    (lottoPrize.getBonus() > 0 ? ", 보너스 볼 일치 " : "") +
+                    "(" + lottoPrize.getPrize() + "원)- "
+                    + purchase.getMatchCount().get(lottoPrize));
         }
     }
 
