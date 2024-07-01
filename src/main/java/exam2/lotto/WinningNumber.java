@@ -20,33 +20,19 @@ public class WinningNumber {
     }
 
     /**
-     * 모든 로또 번호의 당첨 개수를 계산 합니다
+     * 로또 번호의 당첨 개수를 계산 합니다.
      *
-     * @param purchaseTicket
+     * @param lottoNumberRow
      */
-    public void calculateMatchCount(PurchaseTicket purchaseTicket) {
+    public LottoPrize calculateMatchCount(LottoNumberRow lottoNumberRow) {
 
-        if (bonusNumber == null) {
-            throw new NullPointerException("보너스 번호를 넣어주세요");
-        }
+        //당첨 개수 세기
+        int count = lottoNumberRow.matchCount(winningNumberRow);
 
-        for (LottoNumberRow lottoNumberRow : purchaseTicket.getLottoNumberRowList()) {
+        //보너스 당첨 개수 확인
+        int bonus = lottoNumberRow.matchCount(bonusNumber);
 
-            //당첨 개수 세기
-            int count = (int) lottoNumberRow.getNumberList().stream()
-                .filter(lottoNum -> winningNumberRow.checkContainsNumber(lottoNum))
-                .count();
-
-            //보너스 당첨 개수 확인
-            int bonus = (int) lottoNumberRow.getNumberList().stream()
-                .filter(lottoNum -> bonusNumber.equals(lottoNum))
-                .count();
-
-            LottoPrize lottoPrize = LottoPrize.getLottoPrize(count, bonus);
-
-            purchaseTicket.getMatchCount()
-                .put(lottoPrize, purchaseTicket.getMatchCount().get(lottoPrize) + 1);
-        }
+        return LottoPrize.getLottoPrize(count, bonus);
     }
 
     public LottoNumberRow getLottoNumberRow() {

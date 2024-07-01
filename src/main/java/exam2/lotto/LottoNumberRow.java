@@ -93,6 +93,28 @@ public class LottoNumberRow {
         return lottoNumberList;
     }
 
+    /**
+     * 일치하는 번호 개수 세기
+     *
+     * @param lottoNumberRow
+     * @return
+     */
+    public int matchCount(LottoNumberRow lottoNumberRow) {
+        return (int) this.numberList.stream()
+            .filter(lottoNumberRow::checkContainsNumber).count();
+    }
+
+    /**
+     * 일치하는 번호 개수 세기
+     *
+     * @param lottoNumber
+     * @return
+     */
+    public int matchCount(LottoNumber lottoNumber) {
+        return (int) this.numberList.stream()
+            .filter(number -> number.equals(lottoNumber)).count();
+    }
+
     public List<LottoNumber> getNumberList() {
         return numberList;
     }

@@ -25,7 +25,7 @@ class PurchaseTicketTest {
 
         PurchaseTicket purchase = new PurchaseTicket(lottoNumberList);
 
-        winningNumbers.calculateMatchCount(purchase);
+        purchase.updateMatchCount(winningNumbers);
 
         Map<LottoPrize, Integer> expect = new HashMap<>() {{
             put(LottoPrize.ZERO, 1);
@@ -65,7 +65,7 @@ class PurchaseTicketTest {
 
         PurchaseTicket purchase = new PurchaseTicket(lottoNumberList);
 
-        winningNumbers.calculateMatchCount(purchase); // 당첨 개수 계산
+        purchase.updateMatchCount(winningNumbers); // 당첨 개수 계산
         purchase.getRate(); // 수익 비율 계산
 
         double expect = 0.35;

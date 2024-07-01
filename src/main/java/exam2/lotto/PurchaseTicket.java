@@ -39,6 +39,21 @@ public class PurchaseTicket {
     }
 
     /**
+     * 당첨 개수를 업데이트 합니다.
+     *
+     * @param winningNumber
+     */
+    public void updateMatchCount(WinningNumber winningNumber) {
+        for (LottoNumberRow lottoNumberRow : lottoNumberRowList) {
+
+            LottoPrize lottoPrize = winningNumber.calculateMatchCount(lottoNumberRow);
+
+            matchCount.put(lottoPrize, matchCount.get(lottoPrize) + 1);
+        }
+    }
+
+
+    /**
      * 당첨 통계를 계산합니다
      */
     public double getRate() {
