@@ -35,11 +35,4 @@ public class WinningNumber {
         return LottoPrize.getLottoPrize(count, bonus);
     }
 
-    public LottoNumberRow getLottoNumberRow() {
-        return winningNumberRow;
-    }
-
-    public LottoNumber getBonusNumber() {
-        return bonusNumber;
-    }
 }

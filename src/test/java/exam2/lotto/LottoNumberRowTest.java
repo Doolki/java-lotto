@@ -2,7 +2,10 @@ package exam2.lotto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -94,4 +97,71 @@ class LottoNumberRowTest {
     }
 
 
+    @DisplayName("로또 번호가 포함되었는지 확인합니다")
+    @Test
+    void checkContainsNumber() {
+        //given
+        LottoNumber number = new LottoNumber(2);
+        List<Integer> numberList = new ArrayList<>();
+        numberList.add(1);
+        numberList.add(2);
+        numberList.add(4);
+        numberList.add(5);
+        numberList.add(6);
+        LottoNumberRow lottoNumberRow = new LottoNumberRow(numberList);
+
+        //when
+        Boolean isContain = lottoNumberRow.checkContainsNumber(number);
+
+        //then
+        assertThat(isContain).isEqualTo(Boolean.TRUE);
+    }
+
+    @DisplayName("일치하는 번호 개수 세기")
+    @Test
+    void matchCount() {
+        //given
+        List<Integer> winningNumberList = new ArrayList<>();
+        winningNumberList.add(1);
+        winningNumberList.add(2);
+        winningNumberList.add(14);
+        winningNumberList.add(15);
+        winningNumberList.add(16);
+        LottoNumberRow winningNumberRow = new LottoNumberRow(winningNumberList);
+
+        List<Integer> purchaseNumberList = new ArrayList<>();
+        purchaseNumberList.add(1);
+        purchaseNumberList.add(2);
+        purchaseNumberList.add(4);
+        purchaseNumberList.add(5);
+        purchaseNumberList.add(6);
+        LottoNumberRow purchaseNumberRow = new LottoNumberRow(purchaseNumberList);
+
+        //when
+        int matchCount = purchaseNumberRow.matchCount(winningNumberRow);
+
+        //then
+        assertThat(matchCount).isEqualTo(2);
+    }
+
+    @DisplayName("일치하는 번호 개수 세기")
+    @Test
+    void matchCount2() {
+        //given
+        LottoNumber winningNumber = new LottoNumber(2);
+
+        List<Integer> purchaseNumberList = new ArrayList<>();
+        purchaseNumberList.add(1);
+        purchaseNumberList.add(2);
+        purchaseNumberList.add(4);
+        purchaseNumberList.add(5);
+        purchaseNumberList.add(6);
+        LottoNumberRow purchaseNumberRow = new LottoNumberRow(purchaseNumberList);
+
+        //when
+        int matchCount = purchaseNumberRow.matchCount(winningNumber);
+
+        //then
+        assertThat(matchCount).isEqualTo(1);
+    }
 }
