@@ -24,7 +24,9 @@ public class Main {
 
         String winningNumberStr = inputView.winningNumber();
 
-        WinningNumber winning = new WinningNumber(winningNumberStr);
+        resultView.bonusNumber();
+        int bonusNumber = inputView.bonusNumber();
+        WinningNumber winning = new WinningNumber(winningNumberStr, bonusNumber);
 
         LottoService lottoService = new LottoService();
         lottoService.calculateEqualListAndRate(purchase, winning);

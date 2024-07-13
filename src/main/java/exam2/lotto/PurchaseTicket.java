@@ -10,15 +10,15 @@ import java.util.Map;
  */
 public class PurchaseTicket {
 
-    private List<LottoNumbers> lottoNumbersList = new ArrayList<>();
+    private List<LottoNumberRow> lottoNumberRowList = new ArrayList<>();
     private int count = 0;
 
     private Map<LottoPrize, Integer> matchCount = new HashMap<>();
     private double rate;
 
-    public PurchaseTicket(List<LottoNumbers> lottoNumbersList) {
-        this.lottoNumbersList = lottoNumbersList;
-        this.count = lottoNumbersList.size();
+    public PurchaseTicket(List<LottoNumberRow> lottoNumberRowList) {
+        this.lottoNumberRowList = lottoNumberRowList;
+        this.count = lottoNumberRowList.size();
         initMatchCount();
     }
 
@@ -29,31 +29,29 @@ public class PurchaseTicket {
 
         int count = price / LottoPrice.PRICE_1000.getPrice();
 
-        List<LottoNumbers> lottoNumbersList = new ArrayList<>();
+        List<LottoNumberRow> lottoNumberRowList = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            lottoNumbersList.add(new LottoNumbers());
+            lottoNumberRowList.add(new LottoNumberRow());
         }
 
-        return new PurchaseTicket(lottoNumbersList);
+        return new PurchaseTicket(lottoNumberRowList);
     }
 
     /**
-     * 모든 로또 번호의 당첨 개수를 계산 합니다
+     * 당첨 개수를 업데이트 합니다.
      *
-     * @param winning
+     * @param winningNumber
      */
-    public void calculateMatchCount(WinningNumber winning) {
-        for (LottoNumbers lottoNumbers : lottoNumbersList) {
-            int count = (int) lottoNumbers.getNumberList().stream()
-                .filter(lottoNum -> winning.getLottoNumbers().checkContainsNumber(lottoNum))
-                .count();
+    public void updateMatchCount(WinningNumber winningNumber) {
+        for (LottoNumberRow lottoNumberRow : lottoNumberRowList) {
 
-            LottoPrize lottoPrize = LottoPrize.getLottoPrize(count);
+            LottoPrize lottoPrize = winningNumber.calculateMatchCount(lottoNumberRow);
 
-            this.matchCount.put(lottoPrize, this.matchCount.get(lottoPrize) + 1);
+            matchCount.put(lottoPrize, matchCount.get(lottoPrize) + 1);
         }
     }
+
 
     /**
      * 당첨 통계를 계산합니다
@@ -75,26 +73,27 @@ public class PurchaseTicket {
         return count;
     }
 
-    public List<LottoNumbers> getLottoNumbersList() {
-        return lottoNumbersList;
+    public List<LottoNumberRow> getLottoNumberRowList() {
+        return lottoNumberRowList;
     }
 
     public Map<LottoPrize, Integer> getMatchCount() {
         return matchCount;
     }
 
-    public void add(LottoNumbers lottoNumbers) {
-        lottoNumbersList.add(lottoNumbers);
+    public void add(LottoNumberRow lottoNumberRow) {
+        lottoNumberRowList.add(lottoNumberRow);
         this.count += 1;
     }
 
     private void initMatchCount() {
         matchCount.put(LottoPrize.ZERO, 0);
-        matchCount.put(LottoPrize.ONE, 0);
-        matchCount.put(LottoPrize.TWO, 0);
-        matchCount.put(LottoPrize.THREE, 0);
-        matchCount.put(LottoPrize.FOUR, 0);
-        matchCount.put(LottoPrize.FIVE, 0);
-        matchCount.put(LottoPrize.SIX, 0);
+        matchCount.put(LottoPrize.FIRST, 0);
+        matchCount.put(LottoPrize.SECOND, 0);
+        matchCount.put(LottoPrize.THIRD, 0);
+        matchCount.put(LottoPrize.FOURTH, 0);
+        matchCount.put(LottoPrize.FIFTH, 0);
+        matchCount.put(LottoPrize.SIXTH, 0);
+        matchCount.put(LottoPrize.SEVENTH, 0);
     }
 }

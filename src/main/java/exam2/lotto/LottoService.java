@@ -7,7 +7,7 @@ public class LottoService {
      */
     public void calculateEqualListAndRate(PurchaseTicket purchaseTicket,
         WinningNumber winningNumber) {
-        purchaseTicket.calculateMatchCount(winningNumber);
+        purchaseTicket.updateMatchCount(winningNumber);
         purchaseTicket.getRate();
     }
 

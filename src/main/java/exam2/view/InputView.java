@@ -14,4 +14,9 @@ public class InputView {
         return scanner.nextLine();
     }
 
+    public int bonusNumber() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
+
 }
