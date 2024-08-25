@@ -10,6 +10,14 @@ public class ResultView {
         System.out.println("구입금액을 입력해 주세요.");
     }
 
+    public void purchaseManualCount() {
+        System.out.println("수동으로 구매할 로또 수를 입력해 주세요.");
+    }
+
+    public void purchaseManualNumber() {
+        System.out.println("수동으로 구매할 번호를 입력해 주세요.");
+    }
+
     public void purchaseCount(int count) {
         System.out.println(count + "개를 구매했습니다.");
     }

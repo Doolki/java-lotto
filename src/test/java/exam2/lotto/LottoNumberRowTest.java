@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,24 +17,42 @@ import org.junit.jupiter.params.provider.ValueSource;
 class LottoNumberRowTest {
 
     @DisplayName("로또 구입 가격은 1000원 이상 이여야 합니다")
-    @ParameterizedTest
-    @ValueSource(ints = {999})
-    void 로또_구입_가격은_1000원_이상이여야_합니다(int input) {
-
+    @Test
+    void 로또_구입_가격은_1000원_이상이여야_합니다() {
         assertThatThrownBy(() -> {
-            PurchaseTicket.createAutoLottoNumber(input);
+            int price = 999;
+            List<LottoNumberRow> manualLottoRows = new ArrayList<>();
+
+            PurchaseTicket.createAutoLottoNumber(price, manualLottoRows);
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("로또 구입 가격은 1000원 이상 이여야 합니다");
 
     }
 
-    @DisplayName("로또를 구입한 개수를 계산합니다")
-    @ParameterizedTest
-    @CsvSource(value = {"1000:1", "1113455:1113", "12000:12", "12500:12"}, delimiter = ':')
-    void 로또를_구입한_개수를_계산합니다(int input, int expect) {
-        PurchaseTicket purchase = PurchaseTicket.createAutoLottoNumber(input);
+    @DisplayName("구매 금액은 수동 로또 금액보다 커야합니다.")
+    @Test
+    void 구매_금액은_수동_로또_금액보다_커야합니다() {
+        assertThatThrownBy(() -> {
+            int price = 1500;
+            List<LottoNumberRow> manualLottoRows = new ArrayList<>();
+            manualLottoRows.add(new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 6)));
+            manualLottoRows.add(new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 6)));
 
-        assertThat(purchase.getCount()).isEqualTo(expect);
+            PurchaseTicket.createAutoLottoNumber(price, manualLottoRows);
+        }).isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("구매 금액이 부족합니다");
+
+    }
+
+    @DisplayName("로또를 구입한 개수를 계산합니다")
+    @Test
+    void 로또를_구입한_개수를_계산합니다() {
+        int price = 1113455;
+        List<LottoNumberRow> manualLottoRows = new ArrayList<>();
+
+        PurchaseTicket purchase = PurchaseTicket.createAutoLottoNumber(price, manualLottoRows);
+
+        assertThat(purchase.getCount()).isEqualTo(1113);
     }
 
     @DisplayName("랜덤으로 생성된 로또 번호는 1~45 사이 값 입니다")
@@ -54,44 +73,29 @@ class LottoNumberRowTest {
     }
 
     @DisplayName("로또 당첨 번호는 6개여야 합니다")
-    @ParameterizedTest
-    @ValueSource(strings = {"", "1", "1, 2 ,4, 5", "2,3,4,5,6,7,8,9"})
-    void 로또_당첨_번호는_6개여야_합니다(String input) {
-
+    @Test
+    void 로또_당첨_번호는_6개여야_합니다() {
         assertThatThrownBy(() -> {
-            new WinningNumber(input, 30);
+            new WinningNumber(new LottoNumberRow(Arrays.asList(1, 2, 3, 4)), 40);
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("로또 번호는 6개여야 합니다");
     }
 
     @DisplayName("로또 당첨 번호는 1 ~ 45 사이 값이여야 합니다")
-    @ParameterizedTest
-    @ValueSource(strings = {"1, 2, 3, 4, 5, 100", "1, 2, 100, 4, 5, 6"})
-    void 로또_당첨_번호는_1_45_사이_값이여야_합니다(String input) {
-
+    @Test
+    void 로또_당첨_번호는_1_45_사이_값이여야_합니다() {
         assertThatThrownBy(() -> {
-            new WinningNumber(input, 20);
+            new WinningNumber(new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 100)), 40);
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("로또번호는 1 ~ 45 사이 값 이어야 합니다");
     }
 
-    @DisplayName("로또 당첨 번호는 숫자가 아닌 값을 입력할 수 없습니다")
-    @ParameterizedTest
-    @ValueSource(strings = {"1, d2, df3, 4, 5, 100", "1, df2, 100, 4, a5, 6"})
-    void 로또_당첨_번호는_숫자가_아닌_값을_입력할_수_없습니다(String input) {
-        assertThatThrownBy(() -> {
-            new WinningNumber(input, 30);
-        }).isInstanceOf(NumberFormatException.class)
-            .hasMessage("숫자가 아닌 값을 입력할 수 없습니다");
-    }
-
     @DisplayName("로또 당첨 번호는 중복될 수 없습니다")
-    @ParameterizedTest
-    @ValueSource(strings = {"1, 2, 3, 4, 1, 45"})
-    void 로또_당첨_번호는_중복될_수_없습니다(String input) {
+    @Test
+    void 로또_당첨_번호는_중복될_수_없습니다() {
 
         assertThatThrownBy(() -> {
-            new WinningNumber(input, 30);
+            new WinningNumber(new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 1)), 30);
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("중복된 값은 입력할 수 없습니다");
     }
@@ -102,13 +106,7 @@ class LottoNumberRowTest {
     void checkContainsNumber() {
         //given
         LottoNumber number = new LottoNumber(2);
-        List<Integer> numberList = new ArrayList<>();
-        numberList.add(1);
-        numberList.add(2);
-        numberList.add(4);
-        numberList.add(5);
-        numberList.add(6);
-        LottoNumberRow lottoNumberRow = new LottoNumberRow(numberList);
+        LottoNumberRow lottoNumberRow = new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 6));
 
         //when
         Boolean isContain = lottoNumberRow.checkContainsNumber(number);
@@ -121,21 +119,8 @@ class LottoNumberRowTest {
     @Test
     void matchCount() {
         //given
-        List<Integer> winningNumberList = new ArrayList<>();
-        winningNumberList.add(1);
-        winningNumberList.add(2);
-        winningNumberList.add(14);
-        winningNumberList.add(15);
-        winningNumberList.add(16);
-        LottoNumberRow winningNumberRow = new LottoNumberRow(winningNumberList);
-
-        List<Integer> purchaseNumberList = new ArrayList<>();
-        purchaseNumberList.add(1);
-        purchaseNumberList.add(2);
-        purchaseNumberList.add(4);
-        purchaseNumberList.add(5);
-        purchaseNumberList.add(6);
-        LottoNumberRow purchaseNumberRow = new LottoNumberRow(purchaseNumberList);
+        LottoNumberRow winningNumberRow = new LottoNumberRow(Arrays.asList(1, 2, 13, 14, 15, 16));
+        LottoNumberRow purchaseNumberRow = new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 6));
 
         //when
         int matchCount = purchaseNumberRow.matchCount(winningNumberRow);
@@ -149,14 +134,7 @@ class LottoNumberRowTest {
     void matchCount2() {
         //given
         LottoNumber winningNumber = new LottoNumber(2);
-
-        List<Integer> purchaseNumberList = new ArrayList<>();
-        purchaseNumberList.add(1);
-        purchaseNumberList.add(2);
-        purchaseNumberList.add(4);
-        purchaseNumberList.add(5);
-        purchaseNumberList.add(6);
-        LottoNumberRow purchaseNumberRow = new LottoNumberRow(purchaseNumberList);
+        LottoNumberRow purchaseNumberRow = new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 6));
 
         //when
         int matchCount = purchaseNumberRow.matchCount(winningNumber);
