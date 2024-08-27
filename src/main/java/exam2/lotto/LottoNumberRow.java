@@ -14,6 +14,9 @@ public class LottoNumberRow {
         for (Integer num : numberList) {
             this.numberList.add(new LottoNumber(num));
         }
+
+        checkDuplicateNumber(this.numberList);
+        checkValidLength(this.numberList);
     }
 
     /**
@@ -21,31 +24,6 @@ public class LottoNumberRow {
      */
     public LottoNumberRow() {
         this.numberList = makeLottoNumber();
-    }
-
-    /**
-     * 문자열이 들어오면 해당 문자열로 로또 번호를 만듭니다.
-     *
-     * @param inputNumbers
-     */
-    public LottoNumberRow(String inputNumbers) {
-        if (inputNumbers.isEmpty()) {
-            throw new IllegalArgumentException("로또 번호는 6개여야 합니다");
-        }
-
-        String[] numbers = inputNumbers.split(",");
-
-        List<LottoNumber> lottoNumbers = new ArrayList<>();
-
-        for (String num : numbers) {
-            lottoNumbers.add(new LottoNumber(num));
-        }
-
-        checkValidLength(lottoNumbers);
-
-        checkDuplicateNumber(lottoNumbers);
-
-        this.numberList = lottoNumbers;
     }
 
     /**

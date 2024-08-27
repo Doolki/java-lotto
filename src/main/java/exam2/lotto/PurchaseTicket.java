@@ -22,20 +22,25 @@ public class PurchaseTicket {
         initMatchCount();
     }
 
-    public static PurchaseTicket createAutoLottoNumber(int price) {
+    public static PurchaseTicket createAutoLottoNumber(int price,
+        List<LottoNumberRow> manualLottoRows) {
         if (price < LottoPrice.PRICE_1000.getPrice()) {
             throw new IllegalArgumentException("로또 구입 가격은 1000원 이상 이여야 합니다");
         }
 
-        int count = price / LottoPrice.PRICE_1000.getPrice();
-
-        List<LottoNumberRow> lottoNumberRowList = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            lottoNumberRowList.add(new LottoNumberRow());
+        if (price < LottoPrice.PRICE_1000.getPrice() * manualLottoRows.size()) {
+            throw new IllegalArgumentException("구매 금액이 부족합니다");
         }
 
-        return new PurchaseTicket(lottoNumberRowList);
+        int count = price / LottoPrice.PRICE_1000.getPrice();
+
+        List<LottoNumberRow> lottoNumberRows = new ArrayList<>(manualLottoRows);
+
+        for (int i = 0; i < count - manualLottoRows.size(); i++) {
+            lottoNumberRows.add(new LottoNumberRow());
+        }
+
+        return new PurchaseTicket(lottoNumberRows);
     }
 
     /**

@@ -15,7 +15,8 @@ class PurchaseTicketTest {
     @DisplayName("모든 로또 번호 당첨 개수를 계산합니다")
     @Test
     void 모든_로또_번호_당첨_개수를_계산합니다() {
-        WinningNumber winningNumbers = new WinningNumber("1,2,3,4,5,6", 40);
+        WinningNumber winningNumbers = new WinningNumber(
+            new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 6)), 40);
 
         List<LottoNumberRow> lottoNumberList = new ArrayList<>();
 
@@ -44,8 +45,8 @@ class PurchaseTicketTest {
     @DisplayName("수익 비율을 계산합니다")
     @Test
     void 수익_비율을_계산합니다() {
-        WinningNumber winningNumbers = new WinningNumber("1,2,3,4,5,6", 39);
-
+        WinningNumber winningNumbers = new WinningNumber(
+            new LottoNumberRow(Arrays.asList(1, 2, 3, 4, 5, 6)), 39);
         List<LottoNumberRow> lottoNumberList = new ArrayList<>();
 
         lottoNumberList.add(new LottoNumberRow(Arrays.asList(8, 21, 23, 41, 42, 43)));
